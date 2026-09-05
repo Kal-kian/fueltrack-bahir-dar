@@ -17,7 +17,7 @@ import DocumentUpload from './pages/DocumentUpload'
 import ProtectedRoute from './components/ProtectedRoute'
 import Logo from './components/Logo'
 import AdminOwnerDetails from './pages/AdminOwnerDetails'
-import Footer from './components/Footer' 
+import SimpleFooter from './components/SimpleFooter'
 
 function Home() {
   const { user } = useAuth()
@@ -60,8 +60,9 @@ function Home() {
         <p className="text-center mt-6 text-gray-400 text-xs">
           Real-time fuel availability · Bahir Dar, Ethiopia
         </p>
+        <SimpleFooter/>
       </div>
-       <Footer />
+       
     </div>
   )
 }
