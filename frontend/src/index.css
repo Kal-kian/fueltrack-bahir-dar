@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #1A3C5E;
+    --color-primary-light: #2B5C8A;
+  }
+}
+/* Make the app full height */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content should grow to push footer down */
+.main-content {
+  flex: 1;
+}
+
+/* Footer should stay at bottom */
+footer {
+  margin-top: auto;
+  background-color: #1f2937;
+  color: white;
+  padding: 1.5rem 0;
+  width: 100%;
+}

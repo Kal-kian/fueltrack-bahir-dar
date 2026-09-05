@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            Int          @id @default(autoincrement())
+  name          String
+  email         String       @unique
+  phone         String
+  password      String
+  role          String       @default("USER")
+  profileImage  String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  // Document fields
+  businessLicense     String?
+  taxId               String?
+  idDocument          String?
+  isVerified          Boolean   @default(false)
+  verificationStatus  String    @default("PENDING")
+  rejectionReason     String?
+  verifiedBy          Int?
+  verifiedAt          DateTime?
+  isActive            Boolean   @default(true)
+  agreedToTerms       Boolean   @default(false)
+  
+  stations      Station[]    @relation("StationOwner")
+  subscriptions Subscription[]
+  favorites     Favorite[]
+}
+model Station {
+  id            Int          @id @default(autoincrement())
+  name          String
+  location      String
+  contactPhone  String
+  fuelTypes     String
+  isApproved    Boolean      @default(false)
+  ownerId       Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  owner         User         @relation("StationOwner", fields: [ownerId], references: [id])
+  fuelStatuses  FuelStatus[]
+  subscriptions Subscription[]
+  favorites     Favorite[]
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  stationId  Int
+  createdAt  DateTime @default(now())
+  
+  user       User     @relation(fields: [userId], references: [id])
+  station    Station  @relation(fields: [stationId], references: [id])
+  
+  @@unique([userId, stationId])
+}
+
+model FuelStatus {
+  id         Int      @id @default(autoincrement())
+  stationId  Int
+  fuelType   String
+  status     String
+  updatedAt  DateTime @default(now())
+  
+  station    Station  @relation(fields: [stationId], references: [id])
+  
+  @@unique([stationId, fuelType])
+}
+
+model Subscription {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  stationId   Int
+  fuelType    String
+  phoneNumber String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user        User     @relation(fields: [userId], references: [id])
+  station     Station  @relation(fields: [stationId], references: [id])
+  
+  @@unique([userId, stationId, fuelType])
+}
