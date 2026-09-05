@@ -6,7 +6,6 @@
   "scripts": {
     "prisma-gen": "prisma generate --config prisma.config.ts",
     "prisma-migrate": "prisma migrate dev --config prisma.config.ts",
-  "postinstall": "npx prisma generate",
     "start": "node server.js"},
   "keywords": [],
   "author": "",
