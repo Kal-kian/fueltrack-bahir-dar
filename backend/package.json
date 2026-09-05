@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prisma-gen": "prisma generate --config prisma.config.ts",
-    "prisma-migrate": "prisma migrate dev --config prisma.config.ts",
-    "start": "node server.js"},
+    "start": "node server.js",
+    "build": "npx prisma generate"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
