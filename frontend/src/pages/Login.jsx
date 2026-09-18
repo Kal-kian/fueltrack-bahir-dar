@@ -29,19 +29,13 @@ export default function Login() {
       setLoading(false)
     }
   }
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+return (
+  <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="flex-1 flex items-center justify-center px-4 py-8">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        {/* ✅ Vertical layout: logo on top of text, centered */}
+        {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Logo 
-            size="lg" 
-            showText={true} 
-            textColor="text-black" 
-            textSize="text-3xl" 
-            layout="vertical" 
-          />
+          <Logo size="lg" showText={true} textColor="text-black" textSize="text-3xl" layout="vertical" />
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">Welcome Back</h2>
@@ -77,7 +71,6 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              
             </div>
           </div>
 
@@ -102,13 +95,9 @@ export default function Login() {
             Create one
           </Link>
         </p>
-
-        <p className="text-center mt-6 text-gray-400 text-xs">
-          Real-time fuel availability · Bahir Dar, Ethiopia
-        </p>
-           <SimpleFooter />
+         <SimpleFooter />
       </div>
-      
     </div>
-  )
-}
+    
+  </div>
+)}

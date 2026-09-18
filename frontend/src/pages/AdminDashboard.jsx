@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Logo from '../components/Logo'
 import Footer from '../components/Footer'
+import { getImageSrc, getAvatarLetter } from '../utils/imageUtils'
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth()
@@ -68,7 +69,7 @@ export default function AdminDashboard() {
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      toast.success('✅ Station approved!')
+      toast.success('Station approved')
       fetchAllStations()
     } catch (error) {
       console.error('Error approving station:', error)
@@ -84,7 +85,7 @@ export default function AdminDashboard() {
         { reason: rejectReason || 'No reason provided' },
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      toast.success('❌ Station rejected')
+      toast.success('Station rejected')
       setShowRejectModal(false)
       setRejectReason('')
       setRejectingId(null)
@@ -140,8 +141,7 @@ export default function AdminDashboard() {
   const approvedCount = stations.filter(s => s.isApproved).length
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
+    <div className="min-h-screen bg-white">
       <nav className="bg-primary text-white px-6 py-4 shadow-lg sticky top-0 z-20">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to="/admin" className="flex items-center gap-2">
@@ -160,9 +160,26 @@ export default function AdminDashboard() {
             <div className="relative">
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="flex items-center gap-2 text-sm hover:text-gray-200 transition text-white"
+                className="flex items-center gap-3 text-sm hover:text-gray-200 transition text-white"
               >
-                <span> {user?.name}</span>
+                {user?.profileImage ? (
+                  <img 
+                    src={getImageSrc(user.profileImage)}
+                    alt={user.name}
+                    className="w-8 h-8 rounded-full object-cover border-2 border-white/30"
+                    onError={(e) => {
+                      e.target.style.display = 'none'
+                      e.target.nextSibling.style.display = 'flex'
+                    }}
+                  />
+                ) : null}
+                <div 
+                  className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold"
+                  style={{ display: user?.profileImage ? 'none' : 'flex' }}
+                >
+                  {getAvatarLetter(user?.name)}
+                </div>
+                <span className="hidden md:inline">{user?.name}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -185,7 +202,7 @@ export default function AdminDashboard() {
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                   >
-                     Logout
+                    Logout
                   </button>
                 </div>
               )}
@@ -194,12 +211,11 @@ export default function AdminDashboard() {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto p-4 md:p-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
             <h1 className="text-2xl font-bold text-primary">Station Approvals</h1>
-            <p className="text-gray-500 text-sm">{pendingCount} pending — Review and approve station registrations</p>
+            <p className="text-gray-500 text-sm">{pendingCount} pending - Review and approve station registrations</p>
           </div>
           <button
             onClick={fetchAllStations}
@@ -209,7 +225,6 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-xl shadow-sm p-4 border-l-4 border-yellow-500">
             <div className="text-2xl font-bold">{pendingCount}</div>
@@ -225,35 +240,33 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <input
-              type="text"
-              placeholder="Search stations, owners..."
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="flex gap-2">
-            {['ALL', 'PENDING', 'APPROVED'].map((option) => (
-              <button
-                key={option}
-                className={`px-4 py-2 rounded-lg text-sm transition ${
-                  filter === option
-                    ? 'bg-primary text-white'
-                    : 'bg-white border border-gray-300 hover:bg-gray-50'
-                }`}
-                onClick={() => setFilter(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        </div>
+       <div className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
+  <div className="flex-1">
+    <input
+      type="text"
+      placeholder="Search stations, owners..."
+      className="w-full px-3 sm:px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary text-sm"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  </div>
+  <div className="flex gap-2">
+    {['ALL', 'PENDING', 'APPROVED'].map((option) => (
+      <button
+        key={option}
+        className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition ${
+          filter === option
+            ? 'bg-primary text-white'
+            : 'bg-white border border-gray-300'
+        }`}
+        onClick={() => setFilter(option)}
+      >
+        {option}
+      </button>
+    ))}
+  </div>
+</div>
 
-        {/* Stations Table */}
         {loading ? (
           <div className="text-center py-10 text-gray-500">Loading stations...</div>
         ) : filteredStations.length === 0 ? (
@@ -262,9 +275,9 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+  <div className="overflow-x-auto">
+    <table className="w-full min-w-[600px]">
+                <thead className="bg-white border-b">
                   <tr>
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Station</th>
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Owner</th>
@@ -276,7 +289,7 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {filteredStations.map((station, index) => (
-                    <tr key={station.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                    <tr key={station.id} className={index % 2 === 0 ? 'bg-white' : 'bg-white/50'}>
                       <td className="px-6 py-3 text-sm font-medium">{station.name}</td>
                       <td className="px-6 py-3 text-sm">
                         <div className="font-medium">{station.owner?.name || 'Unknown'}</div>
@@ -301,13 +314,13 @@ export default function AdminDashboard() {
                                 onClick={() => handleApprove(station.id)}
                                 className="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700 transition"
                               >
-                                ✓ Approve
+                                Approve
                               </button>
                               <button
                                 onClick={() => openRejectModal(station.id)}
                                 className="bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700 transition"
                               >
-                                ✕ Reject
+                                Reject
                               </button>
                             </>
                           )}
@@ -327,81 +340,69 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Pending Verifications Section */}
-<div className="bg-white rounded-xl shadow-md p-6 mt-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">
-   Pending Verifications ({pendingUsers.length})
-  </h2>
-  
-  {pendingUsers.length === 0 ? (
-    <div className="text-center py-6 text-gray-500">
-      ✅ No pending verifications. All users are verified.
-    </div>
-  ) : (
-    <div className="space-y-4">
-      {pendingUsers.map(user => (
-        <div key={user.id} className="border rounded-lg p-4 hover:bg-gray-50 transition">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div className="flex items-center gap-3">
-              {/* ✅ Profile Picture */}
-              {user.profileImage ? (
-                <img 
-                  src={`${API_URL.replace('/api', '')}${user.profileImage}`}
-                  alt={user.name}
-                  className="w-10 h-10 rounded-full object-cover border border-gray-200"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    e.target.nextSibling.style.display = 'flex'
-                  }}
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
-                  {user.name?.charAt(0) || 'U'}
+        <div className="bg-white rounded-xl shadow-md p-6 mt-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+            Pending Verifications ({pendingUsers.length})
+          </h2>
+          
+          {pendingUsers.length === 0 ? (
+            <div className="text-center py-6 text-gray-500">
+              No pending verifications. All users are verified.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {pendingUsers.map(user => (
+                <div key={user.id} className="border rounded-lg p-4 hover:bg-white transition">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="flex items-center gap-3">
+                      {user.profileImage ? (
+                        <img 
+                          src={`${API_URL.replace('/api', '')}${user.profileImage}`}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                            e.target.nextSibling.style.display = 'flex'
+                          }}
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
+                          {user.name?.charAt(0) || 'U'}
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-lg font-bold text-primary">{user.name}</h3>
+                        <p className="text-gray-600 text-sm">{user.email}</p>
+                        <p className="text-gray-600 text-sm">{user.phone}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-2 md:mt-0 flex-wrap">
+                      <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                        {user.verificationStatus}
+                      </span>
+                      {user.businessLicense && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">License</span>}
+                      {user.taxId && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">Tax ID</span>}
+                      {user.idDocument && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">ID</span>}
+                    </div>
+                    <div className="flex flex-wrap gap-2 w-full md:w-auto">
+    <button className="flex-1 md:flex-none bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+      View Documents
+    </button>
+    <button className="flex-1 md:flex-none bg-green-600 text-white px-3 py-2 rounded-lg text-sm">
+      Approve
+    </button>
+    <button className="flex-1 md:flex-none bg-red-600 text-white px-3 py-2 rounded-lg text-sm">
+      Reject
+    </button>
+  </div>
+                  </div>
                 </div>
-              )}
-              <div>
-                <h3 className="text-lg font-bold text-primary">{user.name}</h3>
-                <p className="text-gray-600 text-sm">📧 {user.email}</p>
-                <p className="text-gray-600 text-sm">📞 {user.phone}</p>
-              </div>
+              ))}
             </div>
-            <div className="flex gap-2 mt-2 md:mt-0 flex-wrap">
-              <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
-                {user.verificationStatus}
-              </span>
-              {user.businessLicense && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">📄 License</span>}
-              {user.taxId && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">📊 Tax ID</span>}
-              {user.idDocument && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">🪪 ID</span>}
-            </div>
-            <div className="flex gap-3 mt-3 md:mt-0 flex-wrap">
-              <button
-                onClick={() => handleViewDocuments(user)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
-              >
-                View Documents
-              </button>
-              <button
-                onClick={() => handleVerify(user.id, 'APPROVED')}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
-              >
-                ✅ Approve
-              </button>
-              <button
-                onClick={() => handleVerify(user.id, 'REJECTED')}
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
-              >
-                ❌ Reject
-              </button>
-            </div>
-          </div>
+          )}
         </div>
-      ))}
-    </div>
-  )}
-</div>
       </div>
 
-      {/* Document Modal */}
       {showDocumentModal && selectedDocuments && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -415,14 +416,13 @@ export default function AdminDashboard() {
                   }}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
-                  ✕
+                  X
                 </button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Business License */}
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium text-gray-700 mb-2">📄 Business License</h3>
+                  <h3 className="font-medium text-gray-700 mb-2">Business License</h3>
                   {selectedDocuments.businessLicense ? (
                     <div>
                       <img 
@@ -441,7 +441,7 @@ export default function AdminDashboard() {
                         })}
                         className="mt-2 text-blue-600 hover:underline text-sm w-full text-center"
                       >
-                        🔍 View Full Screen
+                        View Full Screen
                       </button>
                     </div>
                   ) : (
@@ -449,9 +449,8 @@ export default function AdminDashboard() {
                   )}
                 </div>
 
-                {/* Tax ID */}
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium text-gray-700 mb-2">📊 Tax ID / TIN</h3>
+                  <h3 className="font-medium text-gray-700 mb-2">Tax ID / TIN</h3>
                   {selectedDocuments.taxId ? (
                     <div>
                       <img 
@@ -470,7 +469,7 @@ export default function AdminDashboard() {
                         })}
                         className="mt-2 text-blue-600 hover:underline text-sm w-full text-center"
                       >
-                        🔍 View Full Screen
+                        View Full Screen
                       </button>
                     </div>
                   ) : (
@@ -478,9 +477,8 @@ export default function AdminDashboard() {
                   )}
                 </div>
 
-                {/* Government ID */}
                 <div className="border rounded-lg p-4 md:col-span-2">
-                  <h3 className="font-medium text-gray-700 mb-2">🪪 Government ID</h3>
+                  <h3 className="font-medium text-gray-700 mb-2">Government ID</h3>
                   {selectedDocuments.idDocument ? (
                     <div>
                       <img 
@@ -499,7 +497,7 @@ export default function AdminDashboard() {
                         })}
                         className="mt-2 text-blue-600 hover:underline text-sm w-full text-center"
                       >
-                        🔍 View Full Screen
+                        View Full Screen
                       </button>
                     </div>
                   ) : (
@@ -524,7 +522,6 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Full Screen Image Viewer */}
       {fullScreenImage && (
         <div 
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
@@ -537,7 +534,7 @@ export default function AdminDashboard() {
                 onClick={() => setFullScreenImage(null)}
                 className="text-gray-500 hover:text-gray-700 text-3xl"
               >
-                ✕
+                X
               </button>
             </div>
             <div className="flex items-center justify-center">
@@ -559,14 +556,13 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Modals */}
       {showDetailsModal && selectedStation && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-2xl font-bold text-primary">{selectedStation.name}</h2>
-                <button onClick={() => setShowDetailsModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                <button onClick={() => setShowDetailsModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">X</button>
               </div>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -597,10 +593,10 @@ export default function AdminDashboard() {
                 {!selectedStation.isApproved && (
                   <>
                     <button onClick={() => { handleApprove(selectedStation.id); setShowDetailsModal(false); }} className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                      ✓ Approve
+                      Approve
                     </button>
                     <button onClick={() => { setShowDetailsModal(false); openRejectModal(selectedStation.id); }} className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-                      ✕ Reject
+                      Reject
                     </button>
                   </>
                 )}
@@ -643,3 +639,4 @@ export default function AdminDashboard() {
     </div>
   )
 }
+ 

@@ -120,22 +120,15 @@ export default function OwnerDashboard() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mt-3 md:mt-0">
-                    <Link
-                      to={`/owner/update-status/${station.id}`}
-                      className={`px-4 py-2 rounded-lg text-sm transition ${
-                        station.isApproved
-                          ? 'bg-primary text-white hover:bg-primary-light'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                      onClick={(e) => {
-                        if (!station.isApproved) {
-                          e.preventDefault()
-                          toast.error('Station must be approved before updating status')
-                        }
-                      }}
-                    >
-                      Update Status
-                    </Link>
+                     </div>
+  <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+    <Link
+      to={`/owner/update-status/${station.id}`}
+      className="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-sm text-center"
+    >
+      Update Status
+    </Link>
+   
                     <Link
                       to={`/owner/station/${station.id}`}
                       className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition"

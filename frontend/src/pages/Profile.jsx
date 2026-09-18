@@ -12,7 +12,7 @@ export default function Profile() {
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
   const [loading, setLoading] = useState(false)
-  const [profileImage, setProfileImage] = useState(null)  // ✅ ADD THIS
+  const [profileImage, setProfileImage] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -84,13 +84,13 @@ export default function Profile() {
       reader.onloadend = async () => {
         const token = localStorage.getItem('token')
         const imageData = reader.result.split(',')[1]
-        
+
         const res = await axios.post(
           `${API_URL}/users/profile-picture`,
           { image: imageData },
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        
+
         setProfileImage(`${API_URL.replace('/api', '')}${res.data.user.profileImage}`)
         toast.success('Profile picture updated!')
         window.location.reload()
@@ -105,17 +105,17 @@ export default function Profile() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault()
-    
+
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       toast.error('Passwords do not match')
       return
     }
-    
+
     if (passwordData.newPassword.length < 6) {
       toast.error('Password must be at least 6 characters')
       return
     }
-    
+
     setLoading(true)
     try {
       const token = localStorage.getItem('token')
@@ -142,24 +142,24 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-primary text-white px-6 py-4 shadow-lg sticky top-0 z-10">
+      <nav className="bg-primary text-white px-3 sm:px-6 py-3 sm:py-4 shadow-lg sticky top-0 z-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to={getDashboardUrl()} className="flex items-center gap-2">
-            <Logo size="sm" showText={true} textColor="text-white" textSize="text-xl" />
+            <Logo size="sm" showText={true} textColor="text-white" textSize="text-lg sm:text-xl" />
           </Link>
-          <div className="flex items-center space-x-4">
-            <Link 
-              to={getDashboardUrl()} 
-              className="text-sm hover:text-gray-200 transition text-white"
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <Link
+              to={getDashboardUrl()}
+              className="text-xs sm:text-sm hover:text-gray-200 transition text-white"
             >
-              ← Back to Dashboard
+              Back
             </Link>
             <button
               onClick={() => {
                 logout()
                 navigate('/login')
               }}
-              className="bg-white/20 px-4 py-1 rounded hover:bg-white/30 transition text-sm text-white"
+              className="bg-white/20 px-3 sm:px-4 py-1 rounded hover:bg-white/30 transition text-xs sm:text-sm text-white"
             >
               Logout
             </button>
@@ -167,58 +167,57 @@ export default function Profile() {
         </div>
       </nav>
 
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-primary">Profile & Settings</h1>
-          <p className="text-gray-500 text-sm">Manage your account information</p>
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-primary">Profile & Settings</h1>
+          <p className="text-gray-500 text-xs sm:text-sm">Manage your account information</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Profile Section */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Personal Information</h2>
-            
-            <div className="flex items-center gap-4 mb-4">
-            
-<div className="relative">
-  <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden">
-    {profileImage ? (
-      <img 
-        src={getImageSrc(profileImage)}
-        alt="Profile"
-        className="w-full h-full object-cover"
-        onError={(e) => {
-          e.target.style.display = 'none'
-          e.target.nextSibling.style.display = 'flex'
-        }}
-      />
-    ) : null}
-    <div 
-      className="w-full h-full flex items-center justify-center text-gray-400 text-2xl"
-      style={{ display: profileImage ? 'none' : 'flex' }}
-    >
-      {getAvatarLetter(user?.name)}
-    </div>
-  </div>
-  <button
-    onClick={() => fileInputRef.current?.click()}
-    disabled={uploading}
-    className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-1 text-xs hover:bg-primary-light transition"
-  >
-    📷
-  </button>
-  <input
-    ref={fileInputRef}
-    type="file"
-    accept="image/*"
-    className="hidden"
-    onChange={handleProfilePictureUpload}
-  />
-</div>
-              <div>
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Personal Information</h2>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+              <div className="relative">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-200 overflow-hidden">
+                  {profileImage ? (
+                    <img
+                      src={getImageSrc(profileImage)}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none'
+                        e.target.nextSibling.style.display = 'flex'
+                      }}
+                    />
+                  ) : null}
+                  <div
+                    className="w-full h-full flex items-center justify-center text-gray-400 text-xl sm:text-2xl"
+                    style={{ display: profileImage ? 'none' : 'flex' }}
+                  >
+                    {getAvatarLetter(user?.name)}
+                  </div>
+                </div>
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-1 text-xs hover:bg-primary-light transition"
+                >
+                  📷
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleProfilePictureUpload}
+                />
+              </div>
+              <div className="text-center sm:text-left">
                 <p className="text-sm font-medium">{user?.name}</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
-                <p className="text-xs text-gray-400 mt-1">Click the camera icon to change photo</p>
+                <p className="text-xs text-gray-400 mt-1">Tap the camera icon to change photo</p>
               </div>
             </div>
 
@@ -229,7 +228,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
@@ -241,7 +240,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-sm"
                   value={formData.email}
                   disabled
                 />
@@ -253,7 +252,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="tel"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
@@ -261,7 +260,7 @@ export default function Profile() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50"
+                className="w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50 text-sm"
               >
                 {loading ? 'Saving...' : 'Save Changes'}
               </button>
@@ -269,8 +268,8 @@ export default function Profile() {
           </div>
 
           {/* Password Section */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Change Password</h2>
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Change Password</h2>
             <form onSubmit={handlePasswordChange}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -278,7 +277,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
                   required
@@ -290,7 +289,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
                   required
@@ -302,7 +301,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   value={passwordData.confirmPassword}
                   onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
                   required
@@ -311,7 +310,7 @@ export default function Profile() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50"
+                className="w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50 text-sm"
               >
                 {loading ? 'Updating...' : 'Change Password'}
               </button>
@@ -319,9 +318,9 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="mt-6 bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Account Information</h2>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="mt-4 sm:mt-6 bg-white rounded-xl shadow-md p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Account Information</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-gray-500">Role</span>
               <p className="font-medium capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</p>
@@ -333,7 +332,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
-         <Footer />
+      <Footer />
     </div>
   )
 }

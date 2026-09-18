@@ -7,17 +7,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary text-white mt-auto border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">FuelTrack</h3>
-            <p className="text-white/70 text-sm">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">FuelTrack</h3>
+            <p className="text-white/70 text-xs sm:text-sm">
               Real-time fuel availability in Bahir Dar, Ethiopia
             </p>
           </div>
-
-         
 
           {/* Support */}
           <div>
@@ -29,12 +27,12 @@ export default function Footer() {
                     setShowHelp(!showHelp)
                     setShowTerms(false)
                   }}
-                  className="text-white/70 hover:text-white text-sm transition text-left"
+                  className="text-white/70 hover:text-white text-xs sm:text-sm transition text-left"
                 >
                   ❓ Help
                 </button>
                 {showHelp && (
-                  <div className="mt-2 p-3 bg-white/10 rounded-lg text-sm text-white/90 space-y-2">
+                  <div className="mt-2 p-3 bg-white/10 rounded-lg text-xs sm:text-sm text-white/90 space-y-2">
                     <p><strong>📞 Contact:</strong> +251 912 345 678</p>
                     <p><strong>📧 Email:</strong> support@fueltrack.com</p>
                     <p><strong>⏰ Hours:</strong> Mon-Fri 8:00 AM - 6:00 PM</p>
@@ -58,12 +56,12 @@ export default function Footer() {
                     setShowTerms(!showTerms)
                     setShowHelp(false)
                   }}
-                  className="text-white/70 hover:text-white text-sm transition text-left"
+                  className="text-white/70 hover:text-white text-xs sm:text-sm transition text-left"
                 >
                   📋 Terms & Conditions
                 </button>
                 {showTerms && (
-                  <div className="mt-2 p-3 bg-white/10 rounded-lg text-sm text-white/90 space-y-2">
+                  <div className="mt-2 p-3 bg-white/10 rounded-lg text-xs sm:text-sm text-white/90 space-y-2">
                     <p><strong>1. Acceptance of Terms</strong></p>
                     <p>By using FuelTrack, you agree to these terms.</p>
                     <p><strong>2. User Accounts</strong></p>
@@ -83,11 +81,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-6 pt-4 flex flex-col md:flex-row justify-between items-center text-xs text-white/50">
+        <div className="border-t border-white/10 mt-4 sm:mt-6 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-white/50 gap-2">
           <p>
             © {new Date().getFullYear()} FuelTrack. All rights reserved.
           </p>
-          <div className="flex gap-4 mt-2 md:mt-0">
+          <div className="flex gap-4">
             <span>Version 1.0.0</span>
           </div>
         </div>

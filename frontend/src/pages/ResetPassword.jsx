@@ -57,10 +57,10 @@ export default function ResetPassword() {
 
   if (!validToken) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        <div className="flex-1 flex items-center justify-center px-4">
-          <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-            <div className="flex justify-center mb-6">
+     <div className="min-h-screen flex flex-col bg-gray-50">
+  <div className="flex-1 flex items-center justify-center px-4 py-6 sm:py-8">
+    <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
+     <div className="flex justify-center mb-6">
               <Logo size="lg" showText={true} textColor="text-black" textSize="text-4xl" />
             </div>
             <h2 className="text-2xl font-bold text-red-600">Invalid Reset Link</h2>
@@ -186,11 +186,12 @@ export default function ResetPassword() {
               Sign In
             </Link>
           </p>
+          <SimpleFooter />
         </div>
+        
       </div>
       
-      {/* ✅ Footer at the bottom of the page */}
-      <SimpleFooter />
+      
     </div>
   )
 }

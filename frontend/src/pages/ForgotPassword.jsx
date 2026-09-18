@@ -27,16 +27,11 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+  <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="flex-1 flex items-center justify-center px-4 py-8">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
         <div className="flex justify-center mb-8">
-          <Logo 
-            size="lg" 
-            showText={true} 
-            textColor="text-black" 
-            textSize="text-3xl" 
-            layout="vertical" 
-          />
+          <Logo size="lg" showText={true} textColor="text-black" textSize="text-3xl" layout="vertical" />
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">Forgot Password</h2>
@@ -44,39 +39,29 @@ export default function ForgotPassword() {
           Enter your email and we'll send you a link to reset your password
         </p>
 
-        {submitted ? (
-          <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg text-center">
-            <p className="font-medium">✅ Check your email</p>
-            <p className="text-sm mt-1">We've sent a password reset link to your email.</p>
-            <Link to="/login" className="text-primary font-medium hover:underline block mt-4">
-              Back to Sign In
-            </Link>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50"
-            >
-              {loading ? 'Sending...' : 'Send Reset Link'}
-            </button>
-          </form>
-        )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-light transition disabled:opacity-50"
+          >
+            {loading ? 'Sending...' : 'Send Reset Link'}
+          </button>
+        </form>
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Remember your password?{' '}
@@ -84,9 +69,11 @@ export default function ForgotPassword() {
             Sign In
           </Link>
         </p>
-        <SimpleFooter />
+         <SimpleFooter />
       </div>
-         
+      
     </div>
-  )
+   
+  </div>
+)
 }

@@ -13,6 +13,7 @@ import {
   sortByDistance,
   sortByAvailability
 } from '../services/distanceService'
+import Profile from './Profile'
 
 const STATUS_COLORS = {
   AVAILABLE: 'bg-green-500',
@@ -206,51 +207,50 @@ export default function Dashboard() {
       {/* Rest of the Dashboard content */}
       <div className="flex-1 max-w-7xl mx-auto p-4 md:p-6 w-full">
         {/* Header with Filters */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-primary">
-              {showFavoritesOnly ? '⭐ My Favorites' : 'All Fuel'}
-            </h1>
-            <p className="text-sm text-gray-500">{stations.length} stations found</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <input
-              type="text"
-              placeholder="Search stations..."
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <select
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="ALL">All Fuel</option>
-              <option value="DIESEL">Diesel</option>
-              <option value="PETROL">Petrol</option>
-            </select>
-            <select
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="closest">Sort: Closest First</option>
-              <option value="availability">Sort: Fuel Availability</option>
-              <option value="rating">Sort: Highest Rated</option>
-            </select>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm transition ${
-                showFavoritesOnly 
-                  ? 'bg-yellow-500 text-white' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-            >
-              ⭐ Favorites {favorites.length > 0 && `(${favorites.length})`}
-            </button>
-          </div>
-        </div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
+  <div>
+    <h1 className="text-xl sm:text-2xl font-bold text-primary">
+      {showFavoritesOnly ? 'My Favorites' : 'All Fuel'}
+    </h1>
+    <p className="text-xs sm:text-sm text-gray-500">{stations.length} stations found</p>
+  </div>
+  <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+    <input
+      type="text"
+      placeholder="Search stations..."
+      className="flex-1 sm:flex-none sm:w-48 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary text-sm"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+    <select
+      className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary text-sm"
+      value={filter}
+      onChange={(e) => setFilter(e.target.value)}
+    >
+      <option value="ALL">All</option>
+      <option value="DIESEL">Diesel</option>
+      <option value="PETROL">Petrol</option>
+    </select>
+    <select
+      className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary text-sm"
+      value={sortBy}
+      onChange={(e) => setSortBy(e.target.value)}
+    >
+      <option value="closest">Closest</option>
+      <option value="availability">Available</option>
+    </select>
+    <button
+      className={`px-3 py-2 rounded-lg text-sm transition ${
+        showFavoritesOnly 
+          ? 'bg-yellow-500 text-white' 
+          : 'bg-gray-200 text-gray-700'
+      }`}
+      onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+    >
+      Favorites {favorites.length > 0 && `(${favorites.length})`}
+    </button>
+  </div>
+</div>
 
         {/* Legend */}
         <div className="flex flex-wrap gap-4 mb-4 text-sm">
@@ -350,8 +350,6 @@ export default function Dashboard() {
                         Updated {Math.floor(Math.random() * 20) + 1} mins ago
                       </div>
                     </div>
-
-                    {/* ✅ REMOVED SMS ALERT BUTTON - Only Directions button */}
                     <div className="mt-4 flex gap-2">
                       <button
                         onClick={() => handleGetDirections(station)}

@@ -48,18 +48,24 @@ export default function StationDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-gray-50">
         <OwnerHeader />
-        <div className="text-center py-10">Loading...</div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center py-10 text-gray-500">Loading...</div>
+        </div>
+        <Footer />
       </div>
     )
   }
 
   if (!station) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-gray-50">
         <OwnerHeader />
-        <div className="text-center py-10">Station not found</div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center py-10 text-gray-500">Station not found</div>
+        </div>
+        <Footer />
       </div>
     )
   }

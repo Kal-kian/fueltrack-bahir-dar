@@ -291,29 +291,28 @@ export default function Signup() {
       </button>
     </div>
   )
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <div className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-          <div className="flex justify-center mb-8">
-            <Logo size="lg" showText={true} textColor="text-black" textSize="text-3xl" layout="vertical" />
+      <div className="flex-1 flex items-center justify-center px-3 sm:px-4 py-4 sm:py-8">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
+          <div className="flex justify-center mb-4 sm:mb-8">
+            <Logo size="lg" showText={true} textColor="text-black" textSize="text-2xl sm:text-3xl" layout="vertical" />
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-800 text-center mb-2">Create Account</h2>
-          <p className="text-gray-500 text-sm text-center mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center mb-2">Create Account</h2>
+          <p className="text-gray-500 text-xs sm:text-sm text-center mb-4 sm:mb-6">
             {step === 1 && 'Create your account to get started.'}
             {step === 2 && 'Upload your legal documents.'}
             {step === 3 && 'Review and confirm your details.'}
           </p>
 
           {/* Step Indicator */}
-          <div className="flex justify-center gap-2 mb-6">
+          <div className="flex justify-center gap-2 mb-4 sm:mb-6">
             {isStationOwner ? (
               [1, 2, 3].map((s) => (
                 <div
                   key={s}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     s === step
                       ? 'bg-primary text-white'
                       : s < step
@@ -327,14 +326,14 @@ export default function Signup() {
             ) : (
               <>
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step === 1 ? 'bg-primary text-white' : step > 1 ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
                   }`}
                 >
                   {step > 1 ? '✓' : '1'}
                 </div>
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step === 3 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'
                   }`}
                 >
@@ -349,13 +348,13 @@ export default function Signup() {
             {step === 1 && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
                     FULL NAME *
                   </label>
                   <input
                     type="text"
                     placeholder="Amanuel Tesfaye"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                     value={formData.fullName}
                     onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                     required
@@ -363,13 +362,13 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
                     EMAIL OR PHONE NUMBER *
                   </label>
                   <input
                     type="text"
                     placeholder="ammanuel@example.com or 0912345678"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     required
@@ -377,14 +376,14 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 uppercase tracking-wide">
                     PASSWORD *
                   </label>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Enter your password"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-12"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-12 text-sm"
                       value={formData.password}
                       onChange={(e) => setFormData({...formData, password: e.target.value})}
                       required
@@ -400,7 +399,7 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2 uppercase tracking-wide">
                     I AM A... *
                   </label>
                   <div className="space-y-2">
@@ -416,8 +415,8 @@ export default function Signup() {
                         className="mr-3"
                       />
                       <div>
-                        <div className="font-medium">Driver / Business</div>
-                        <div className="text-sm text-gray-500">Find fuel near you</div>
+                        <div className="font-medium text-sm">Driver / Business</div>
+                        <div className="text-xs sm:text-sm text-gray-500">Find fuel near you</div>
                       </div>
                     </label>
                     <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition ${
@@ -432,8 +431,8 @@ export default function Signup() {
                         className="mr-3"
                       />
                       <div>
-                        <div className="font-medium">Station Owner</div>
-                        <div className="text-sm text-gray-500">Manage your stations</div>
+                        <div className="font-medium text-sm">Station Owner</div>
+                        <div className="text-xs sm:text-sm text-gray-500">Manage your stations</div>
                       </div>
                     </label>
                   </div>
@@ -442,7 +441,7 @@ export default function Signup() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-light transition"
+                  className="w-full bg-primary text-white py-2 sm:py-3 rounded-lg font-medium hover:bg-primary-light transition text-sm"
                 >
                   {isStationOwner ? 'Next: Documents →' : 'Review & Submit →'}
                 </button>
@@ -456,17 +455,15 @@ export default function Signup() {
             {step === 3 && renderReview()}
           </form>
 
-          <p className="text-center mt-4 text-sm text-gray-600">
+          <p className="text-center mt-4 text-xs sm:text-sm text-gray-600">
             Already registered?{' '}
             <Link to="/login" className="text-primary font-medium hover:underline">
               Sign in
             </Link>
           </p>
           <SimpleFooter />
-        </div>      
+        </div>
       </div>
-           
     </div>
   )
 }
- 
