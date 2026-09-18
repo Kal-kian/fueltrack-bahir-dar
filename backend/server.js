@@ -35,7 +35,9 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 app.use(cors({
   origin: [
     'http://localhost:5173',     // Development
-    'https://fueltrack-bahir-dar.vercel.app'  
+    'https://fueltrack-bahir-dar.vercel.app',
+    'fueltrack-bahirdar-nw9ms71hp-kal-kians-projects.vercel.app',
+    /\.vercel\.app$/
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
